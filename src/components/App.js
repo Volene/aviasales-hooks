@@ -25,7 +25,9 @@ function App() {
   return (
     <>
       <header style={{ textAlign: "center", width: "100%", margin: "auto" }}>
-        <img src={logo} alt="logo" />
+        <a href="https://github.com/Volene/aviasales-hooks">
+          <img src={logo} alt="logo" />
+        </a>
       </header>
       <Container>
         <LeftPanel>

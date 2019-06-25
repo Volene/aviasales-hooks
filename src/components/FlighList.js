@@ -190,8 +190,8 @@ function setStops(stops) {
 }
 function formatDate(date) {
   const x = date.split(".");
-  const d = new Date('20'+x[2],x[1]-1,x[0]);
-  const weekDays = ["Вс","Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+  const d = new Date("20" + x[2], x[1] - 1, x[0]);
+  const weekDays = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
   const months = [
     "янв",
     "фев",
@@ -212,10 +212,7 @@ function formatDate(date) {
 }
 function formatTime(time) {
   const x = time.split(":");
-  if (x[0] < 10) {
-    return "0" + time;
-  }
-  
+  if (x[0] < 10) return "0" + time;
   return time;
 }
 function formatPrice(price, rate, curr) {

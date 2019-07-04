@@ -190,7 +190,8 @@ function setStops(stops) {
 }
 function formatDate(date) {
   const x = date.split(".");
-  const d = new Date("20" + x[2], x[1] - 1, x[0]);
+  const [dd,mm,yy]=x;
+  const d = new Date("20" + yy, mm - 1, dd);
   const weekDays = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
   const months = [
     "янв",
@@ -208,7 +209,7 @@ function formatDate(date) {
   ];
   const day = weekDays[d.getDay()];
   const month = months[d.getMonth()];
-  return `${x[0]} ${month} 20${x[2]}, ${day}`;
+  return `${dd} ${month} 20${yy}, ${day}`;
 }
 function formatTime(time) {
   const x = time.split(":");

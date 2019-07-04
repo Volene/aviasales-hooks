@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 import {
   GET_CURRENCY_RATE_REQUEST,
-  GET_TICKETS_REQUEST
+  GET_TICKETS_REQUEST,
 } from "../actions/types";
 
 export function* loadCurrRate() {

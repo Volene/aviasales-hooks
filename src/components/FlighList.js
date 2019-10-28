@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getTicketsRequest } from "../actions/index";
 import BA from "../images/BA.png";
 import SU from "../images/SU.png";
@@ -15,6 +15,10 @@ const TicketListWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  @media (min-width: 1100px) {
+    width: 580px;
+    
+  }
 `;
 const Ticket = styled.div`
   max-width: 570px;
@@ -25,6 +29,7 @@ const Ticket = styled.div`
   margin-top: 40px;
   margin-bottom: 10px;
   margin-right: 10px;
+
   @media (max-width: 600px) {
     margin-left: 8px;
     margin-right: 8px;
@@ -190,7 +195,7 @@ function setStops(stops) {
 }
 function formatDate(date) {
   const x = date.split(".");
-  const [dd,mm,yy]=x;
+  const [dd, mm, yy] = x;
   const d = new Date("20" + yy, mm - 1, dd);
   const weekDays = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
   const months = [
@@ -224,14 +229,28 @@ function formatPrice(price, rate, curr) {
     return pricez;
   }
 }
-function FlighList(props) {
-  const { tickets, rate, activeCurr, isFetched, getTicketsRequest } = props;
+function getVisibleTickets(tickets, stops) {
+  if (!tickets) return null;
+  const stopz = Object.values(stops);
+  return [...tickets]
+    .filter(el => stopz.includes(el.stops))
+    .sort((a, b) => a.price - b.price);
+}
+function FlighList() {
+  const dispatch = useDispatch();
+  const {
+    stops,
+    tickets: { tickets, isFetched },
+    currency: { rate, activeCurr }
+  } = useSelector(state => state);
+  const visibleTickets = getVisibleTickets(tickets, stops);
+
   useEffect(() => {
-    getTicketsRequest();
-  }, [getTicketsRequest]);
+    dispatch(getTicketsRequest());
+  }, [dispatch]);
 
   const renderFlighs = () => {
-    return tickets.map(
+    return visibleTickets.map(
       ({
         price,
         carrier,
@@ -292,29 +311,5 @@ function FlighList(props) {
     </TicketListWrapper>
   );
 }
-//// Container ////
-function getVisibleTickets(tickets, stops) {
-  const stopz = Object.values(stops);
-  const elems = new Set(stopz);
-  if (!tickets) return;
-  return tickets
-    .filter(el => elems.has(el.stops))
-    .sort((a, b) => a.price - b.price);
-}
-function mapStateToProps(state) {
-  const { tickets, isFetched } = state.tickets;
-  const { stops } = state;
-  const { rate } = state.currency;
-  const { activeCurr } = state.currency;
-  return {
-    tickets: getVisibleTickets(tickets, stops),
-    rate,
-    activeCurr,
-    isFetched
-  };
-}
 
-export default connect(
-  mapStateToProps,
-  { getTicketsRequest }
-)(FlighList);
+export default FlighList;

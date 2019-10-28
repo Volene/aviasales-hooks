@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCurrency, getCurrRateRequest } from "../actions";
 const ButtonGroup = styled.div`
   margin: 0 15px 0 15px;
@@ -48,12 +48,14 @@ const Button = styled.button`
   }
 `;
 
-function Currencies(props) {
+function Currencies() {
+  const dispatch = useDispatch();
   const buttons = [
     { name: "RUB", label: "RUB", value: "RUB", primary: true },
     { name: "USD", label: "USD", value: "USD", primary: false },
     { name: "EUR", label: "EUR", value: "EUR", primary: false }
   ];
+
   const [activeButton, setActiveButton] = useState(buttons);
 
   const activeButtons = idx => {
@@ -65,9 +67,8 @@ function Currencies(props) {
   };
 
   useEffect(() => {
-    const { getCurrRateRequest } = props;
-    getCurrRateRequest();
-  }, [props]);
+    dispatch(getCurrRateRequest());
+  }, [dispatch]);
 
   const renderButtons = () =>
     activeButton.map(el => {
@@ -86,13 +87,10 @@ function Currencies(props) {
   return (
     <>
       <Curr>Валюта </Curr>
-      <ButtonGroup onClick={e => props.setCurrency(e.target.value)}>
+      <ButtonGroup onClick={e => dispatch(setCurrency(e.target.value))}>
         {renderButtons()}
       </ButtonGroup>
     </>
   );
 }
-export default connect(
-  null,
-  { setCurrency, getCurrRateRequest }
-)(Currencies);
+export default Currencies;

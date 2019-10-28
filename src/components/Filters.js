@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { toggleFilter } from "../actions/";
 import Checkbox from "./Checkbox";
@@ -44,6 +44,7 @@ const CheckboxLabel = styled.span`
   margin-left: 8px;
 `;
 function Filters(props) {
+  const dispatch=useDispatch();
   const [filterz, toggleFilterz] = useState({
     allChecked: true,
     list: [
@@ -72,7 +73,7 @@ function Filters(props) {
       filters = list
         .filter(el => el.isChecked)
         .reduce((acc, { id, value }) => ({ ...acc, [id]: value }), []);
-      props.toggleFilter(filters);
+      dispatch(toggleFilter(filters));
       return { list, allChecked };
     });
   };
@@ -94,7 +95,7 @@ function Filters(props) {
       filters = list
         .filter(el => el.isChecked)
         .reduce((acc, { id, value }) => ({ ...acc, [id]: value }), []);
-      props.toggleFilter(filters);
+      dispatch(toggleFilter(filters));
       return { list, allChecked };
     });
   };
@@ -138,7 +139,4 @@ function Filters(props) {
   );
 }
 
-export default connect(
-  null,
-  { toggleFilter }
-)(Filters);
+export default Filters;

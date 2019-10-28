@@ -8,6 +8,12 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
+  
+  @media (min-width: 1100px) {
+    justify-content:center;
+    margin-left: calc(100vw - 100%);
+    margin-right: 0;
+  }
   @media (max-width: 600px) {
     flex-direction: column;
   }
@@ -29,12 +35,12 @@ function App() {
           <img src={logo} alt="logo" />
         </a>
       </header>
-      <Container>
+      <Container><>
         <LeftPanel>
           <Currencies />
           <Curr>Количество пересадок</Curr>
           <Filters />
-        </LeftPanel>
+        </LeftPanel></>
         <FlighList />
       </Container>
     </>

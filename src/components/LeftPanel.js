@@ -15,4 +15,10 @@ export const LeftPanel = styled.div`
     flex-direction: column;
     margin: 0 0 0 0;
   }
+  @media (min-width: 700px) and (max-width: 950px){
+    margin-left:40px;
+  }
+  @media (min-width: 1100px) {
+    margin-left: -300px;
+  }
 `;

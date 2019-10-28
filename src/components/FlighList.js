@@ -17,7 +17,6 @@ const TicketListWrapper = styled.div`
   flex-direction: column;
   @media (min-width: 1100px) {
     width: 580px;
-    
   }
 `;
 const Ticket = styled.div`

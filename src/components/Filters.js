@@ -43,7 +43,7 @@ const CheckBoxexContainer = styled.div`
 const CheckboxLabel = styled.span`
   margin-left: 8px;
 `;
-function Filters(props) {
+function Filters() {
   const dispatch=useDispatch();
   const [filterz, toggleFilterz] = useState({
     allChecked: true,

@@ -42,6 +42,7 @@ const Button = styled.button`
     opacity: 0.4;
   }
   :hover {
+    transition: all 1s ease-out;
     background: ${props => (props.primary ? "#2196f3" : "#f2fcff")};
     color: ${props => (props.primary ? "white" : "#2196f3")};
     border: 1px solid #2196f3;
@@ -51,18 +52,18 @@ const Button = styled.button`
 function Currencies() {
   const dispatch = useDispatch();
   const buttons = [
-    { name: "RUB", label: "RUB", value: "RUB", primary: true },
-    { name: "USD", label: "USD", value: "USD", primary: false },
-    { name: "EUR", label: "EUR", value: "EUR", primary: false }
+    { id: 0, name: "RUB", primary: true },
+    { id: 1, name: "USD", primary: false },
+    { id: 2, name: "EUR", primary: false }
   ];
 
   const [activeButton, setActiveButton] = useState(buttons);
 
   const activeButtons = idx => {
     const b = [...activeButton];
-    b.map(el => (el.primary = false));
-    const curBut = b.findIndex(el => el.name === idx);
-    b[curBut].primary = !b[curBut].primary;
+    b.map((button, i) =>
+      i === idx ? (button.primary = true) : (button.primary = false)
+    );
     setActiveButton(b);
   };
 
@@ -71,16 +72,16 @@ function Currencies() {
   }, [dispatch]);
 
   const renderButtons = () =>
-    activeButton.map(el => {
+    activeButton.map(({ id, name, primary }) => {
       return (
         <Button
-          key={el.name}
-          index={el.name}
-          value={el.value}
-          onClick={() => activeButtons(el.name)}
-          primary={el.primary}
+          key={name}
+          index={name}
+          value={name}
+          onClick={() => activeButtons(id)}
+          primary={primary}
         >
-          {el.label}
+          {name}
         </Button>
       );
     });

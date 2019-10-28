@@ -193,8 +193,7 @@ function setStops(stops) {
   }
 }
 function formatDate(date) {
-  const x = date.split(".");
-  const [dd, mm, yy] = x;
+  const [dd, mm, yy] = date.split(".");
   const d = new Date("20" + yy, mm - 1, dd);
   const weekDays = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
   const months = [
@@ -216,18 +215,14 @@ function formatDate(date) {
   return `${dd} ${month} 20${yy}, ${day}`;
 }
 function formatTime(time) {
-  const x = time.split(":");
-  if (x[0] < 10) return "0" + time;
-  return time;
+  const [hh] = time.split(":");
+  return hh < 10 ? "0" + time : time;
 }
-function formatPrice(price, rate, curr) {
+function formatPrice(price, rate) {
   const pricez = Math.floor(price * rate);
-  if (pricez > 1000) {
-    return pricez.toString().replace(/(\d{2})/, "$1 ");
-  } else {
-    return pricez;
-  }
+  return pricez > 1000 ? pricez.toString().replace(/(\d{2})/, "$1 ") : pricez;
 }
+
 function getVisibleTickets(tickets, stops) {
   if (!tickets) return null;
   const stopz = Object.values(stops);

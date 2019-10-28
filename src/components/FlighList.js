@@ -159,7 +159,7 @@ const DestArrDate = styled(DestArrName)`
   padding-top: 0;
 `;
 
-function setLogo(carrier) {
+const setLogo = carrier => {
   switch (carrier) {
     case "BA":
       return BA;
@@ -180,9 +180,9 @@ function setLogo(carrier) {
     default:
       return carrier;
   }
-}
+};
 
-function setStops(stops) {
+const setStops = stops => {
   switch (stops) {
     case 0:
       return "";
@@ -191,8 +191,8 @@ function setStops(stops) {
     default:
       return `${stops} пересадки`;
   }
-}
-function formatDate(date) {
+};
+const formatDate = date => {
   const [dd, mm, yy] = date.split(".");
   const d = new Date("20" + yy, mm - 1, dd);
   const weekDays = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
@@ -213,23 +213,23 @@ function formatDate(date) {
   const day = weekDays[d.getDay()];
   const month = months[d.getMonth()];
   return `${dd} ${month} 20${yy}, ${day}`;
-}
-function formatTime(time) {
+};
+const formatTime = time => {
   const [hh] = time.split(":");
   return hh < 10 ? "0" + time : time;
-}
-function formatPrice(price, rate) {
+};
+const formatPrice = (price, rate) => {
   const pricez = Math.floor(price * rate);
   return pricez > 1000 ? pricez.toString().replace(/(\d{2})/, "$1 ") : pricez;
-}
+};
 
-function getVisibleTickets(tickets, stops) {
+const getVisibleTickets = (tickets, stops) => {
   if (!tickets) return null;
   const stopz = Object.values(stops);
   return [...tickets]
     .filter(el => stopz.includes(el.stops))
     .sort((a, b) => a.price - b.price);
-}
+};
 function FlighList() {
   const dispatch = useDispatch();
   const {

@@ -60,7 +60,7 @@ function Currencies() {
   const [activeButton, setActiveButton] = useState(buttons);
 
   const activeButtons = idx => {
-    const b = [...activeButton];
+    const b = [...activeButton]
     b.map((button, i) =>
       i === idx ? (button.primary = true) : (button.primary = false)
     );

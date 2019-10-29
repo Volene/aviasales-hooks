@@ -43,8 +43,8 @@ const CheckBoxexContainer = styled.div`
 const CheckboxLabel = styled.span`
   margin-left: 8px;
 `;
-function Filters() {
-  const dispatch=useDispatch();
+const Filters = () => {
+  const dispatch = useDispatch();
   const [filterz, toggleFilterz] = useState({
     allChecked: true,
     list: [
@@ -64,34 +64,18 @@ function Filters() {
       if (itemName === "checkAll") {
         allChecked = checked;
         list = list.map(item => ({ ...item, isChecked: checked }));
+      } else if (itemName.match("only")) {
+        list = list.map(item =>
+          item.name === itemName.split(":")[1]
+            ? { ...item, isChecked: true }
+            : { ...item, isChecked: false }
+        );
       } else {
         list = list.map(item =>
           item.name === itemName ? { ...item, isChecked: checked } : item
         );
-        allChecked = list.every(item => item.isChecked);
       }
-      filters = list
-        .filter(el => el.isChecked)
-        .reduce((acc, { id, value }) => ({ ...acc, [id]: value }), []);
-      dispatch(toggleFilter(filters));
-      return { list, allChecked };
-    });
-  };
-
-  const handleClick = e => {
-    let itemName = e.target.name;
-    let checked = e.target.checked;
-    let filters;
-    toggleFilterz(() => {
-      let { list, allChecked } = filterz;
-      allChecked = checked;
-      list = list.map(item =>
-        item.name === itemName ? { ...item, isChecked: true } : item
-      );
-      list = list.map(item =>
-        item.name !== itemName ? { ...item, isChecked: false } : item
-      );
-      allChecked = list.every(item => !item.isChecked);
+      allChecked = list.every(item => item.isChecked);
       filters = list
         .filter(el => el.isChecked)
         .reduce((acc, { id, value }) => ({ ...acc, [id]: value }), []);
@@ -115,7 +99,7 @@ function Filters() {
           />
           <CheckboxLabel>{item.name}</CheckboxLabel>
         </label>
-        <OnlyButton name={item.name} onClick={handleClick}>
+        <OnlyButton name={`only:${item.name}`} onClick={handleChange}>
           только
         </OnlyButton>
       </CheckBoxContainer>
@@ -137,6 +121,6 @@ function Filters() {
       {renderFilters()}
     </CheckBoxexContainer>
   );
-}
+};
 
 export default Filters;

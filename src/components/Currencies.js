@@ -49,7 +49,21 @@ const Button = styled.button`
   }
 `;
 
-function Currencies() {
+const renderButtons = (buttons, setActBut) =>
+  buttons.map(({ id, name, primary }) => {
+    return (
+      <Button
+        key={name}
+        index={name}
+        value={name}
+        onClick={() => setActBut(id)}
+        primary={primary}
+      >
+        {name}
+      </Button>
+    );
+  });
+const Currencies = () => {
   const dispatch = useDispatch();
   const buttons = [
     { id: 0, name: "RUB", primary: true },
@@ -59,8 +73,8 @@ function Currencies() {
 
   const [activeButton, setActiveButton] = useState(buttons);
 
-  const activeButtons = idx => {
-    const b = [...activeButton]
+  const setActiveButtons = idx => {
+    const b = [...activeButton];
     b.map((button, i) =>
       i === idx ? (button.primary = true) : (button.primary = false)
     );
@@ -71,27 +85,13 @@ function Currencies() {
     dispatch(getCurrRateRequest());
   }, [dispatch]);
 
-  const renderButtons = () =>
-    activeButton.map(({ id, name, primary }) => {
-      return (
-        <Button
-          key={name}
-          index={name}
-          value={name}
-          onClick={() => activeButtons(id)}
-          primary={primary}
-        >
-          {name}
-        </Button>
-      );
-    });
   return (
     <>
       <Curr>Валюта </Curr>
       <ButtonGroup onClick={e => dispatch(setCurrency(e.target.value))}>
-        {renderButtons()}
+        {renderButtons(activeButton, setActiveButtons)}
       </ButtonGroup>
     </>
   );
-}
+};
 export default Currencies;

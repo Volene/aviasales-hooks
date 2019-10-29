@@ -230,11 +230,66 @@ const getVisibleTickets = (tickets, stops) => {
     .filter(el => stopz.includes(el.stops))
     .sort((a, b) => a.price - b.price);
 };
-function FlighList() {
+const renderFlighs = (tickets, activeCurr, rate) => {
+  return tickets.map(
+    ({
+      price,
+      carrier,
+      departure_date,
+      departure_time,
+      arrival_date,
+      arrival_time,
+      stops,
+      origin_name,
+      origin,
+      destination,
+      destination_name
+    }) => {
+      return (
+        <Ticket key={price}>
+          <LogoButtonWrapper>
+            <CarrierLogoSmall src={setLogo(carrier + "S")} />
+            <CarrierLogo src={setLogo(carrier)} />
+            <BuyButton>
+              Купить {"\r\n"}
+              за {activeCurr === "USD" && "$"}
+              {activeCurr === "EUR" && "€"}
+              {formatPrice(price, rate, activeCurr)}
+              {activeCurr === "RUB" && "₽"}
+            </BuyButton>
+          </LogoButtonWrapper>
+          <DepDescriptionWrapper>
+            <Container>
+              <DepTimeArrTime>{formatTime(departure_time)}</DepTimeArrTime>
+              <DestArrName>
+                {origin}, {"\r\n"}
+                {origin_name}
+              </DestArrName>
+              <DestArrDate>{formatDate(departure_date)}</DestArrDate>
+            </Container>
+            <ContainerLine>
+              <Transfers>{setStops(stops) || "⠀"}</Transfers>
+              <Line />
+            </ContainerLine>
+            <Container>
+              <DepTimeArrTime>{arrival_time}</DepTimeArrTime>
+              <DestArrName>
+                {destination}, {"\r\n"}
+                {destination_name}
+              </DestArrName>
+              <DestArrDate>{formatDate(arrival_date)}</DestArrDate>
+            </Container>
+          </DepDescriptionWrapper>
+        </Ticket>
+      );
+    }
+  );
+};
+const FlighList=()=>{
   const dispatch = useDispatch();
   const {
     stops,
-    tickets: { tickets, isFetched },
+    tickets: { isFetched, tickets },
     currency: { rate, activeCurr }
   } = useSelector(state => state);
   const visibleTickets = getVisibleTickets(tickets, stops);
@@ -243,64 +298,9 @@ function FlighList() {
     dispatch(getTicketsRequest());
   }, [dispatch]);
 
-  const renderFlighs = () => {
-    return visibleTickets.map(
-      ({
-        price,
-        carrier,
-        departure_date,
-        departure_time,
-        arrival_date,
-        arrival_time,
-        stops,
-        origin_name,
-        origin,
-        destination,
-        destination_name
-      }) => {
-        return (
-          <Ticket key={price}>
-            <LogoButtonWrapper>
-              <CarrierLogoSmall src={setLogo(carrier + "S")} />
-              <CarrierLogo src={setLogo(carrier)} />
-              <BuyButton>
-                Купить {"\r\n"}
-                за {activeCurr === "USD" && "$"}
-                {activeCurr === "EUR" && "€"}
-                {formatPrice(price, rate, activeCurr)}
-                {activeCurr === "RUB" && "₽"}
-              </BuyButton>
-            </LogoButtonWrapper>
-            <DepDescriptionWrapper>
-              <Container>
-                <DepTimeArrTime>{formatTime(departure_time)}</DepTimeArrTime>
-                <DestArrName>
-                  {origin}, {"\r\n"}
-                  {origin_name}
-                </DestArrName>
-                <DestArrDate>{formatDate(departure_date)}</DestArrDate>
-              </Container>
-              <ContainerLine>
-                <Transfers>{setStops(stops) || "⠀"}</Transfers>
-                <Line />
-              </ContainerLine>
-              <Container>
-                <DepTimeArrTime>{arrival_time}</DepTimeArrTime>
-                <DestArrName>
-                  {destination}, {"\r\n"}
-                  {destination_name}
-                </DestArrName>
-                <DestArrDate>{formatDate(arrival_date)}</DestArrDate>
-              </Container>
-            </DepDescriptionWrapper>
-          </Ticket>
-        );
-      }
-    );
-  };
   return (
     <TicketListWrapper>
-      {isFetched && renderFlighs()}
+      {isFetched && renderFlighs(visibleTickets, activeCurr, rate)}
       {!isFetched && null}
     </TicketListWrapper>
   );

@@ -43,6 +43,7 @@ const CheckBoxexContainer = styled.div`
 const CheckboxLabel = styled.span`
   margin-left: 8px;
 `;
+
 const Filters = () => {
   const dispatch = useDispatch();
   const [filterz, toggleFilterz] = useState({
@@ -59,8 +60,7 @@ const Filters = () => {
     let itemName = e.target.name;
     let checked = e.target.checked;
     let filters;
-    toggleFilterz(() => {
-      let { list, allChecked } = filterz;
+    toggleFilterz(({ list, allChecked }) => {
       if (itemName === "checkAll") {
         allChecked = checked;
         list = list.map(item => ({ ...item, isChecked: checked }));

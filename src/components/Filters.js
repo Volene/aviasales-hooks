@@ -56,34 +56,41 @@ const Filters = () => {
     ]
   });
 
+  const getFilters = list => {
+    return list
+      .filter(el => el.isChecked)
+      .reduce((acc, { id, value }) => ({ ...acc, [id]: value }), []);
+  };
   const handleChange = e => {
     let itemName = e.target.name;
     let checked = e.target.checked;
-    let filters;
     toggleFilterz(({ list, allChecked }) => {
       if (itemName === "checkAll") {
         allChecked = checked;
         list = list.map(item => ({ ...item, isChecked: checked }));
-      } else if (itemName.match("only")) {
-        list = list.map(item =>
-          item.name === itemName.split(":")[1]
-            ? { ...item, isChecked: true }
-            : { ...item, isChecked: false }
-        );
       } else {
         list = list.map(item =>
           item.name === itemName ? { ...item, isChecked: checked } : item
         );
       }
       allChecked = list.every(item => item.isChecked);
-      filters = list
-        .filter(el => el.isChecked)
-        .reduce((acc, { id, value }) => ({ ...acc, [id]: value }), []);
-      dispatch(toggleFilter(filters));
+      dispatch(toggleFilter(getFilters(list)));
       return { list, allChecked };
     });
   };
-
+  const handleOnlyChange = e => {
+    let itemName = e.target.name;
+    toggleFilterz(({ list, allChecked }) => {
+      list = list.map(item =>
+        item.name === itemName
+          ? { ...item, isChecked: true }
+          : { ...item, isChecked: false }
+      );
+      allChecked = list.every(el => el.isChecked);
+      dispatch(toggleFilter(getFilters(list)));
+      return { list, allChecked };
+    });
+  };
   const renderFilters = () => {
     const { list } = filterz;
     return list.map(item => (
@@ -99,7 +106,7 @@ const Filters = () => {
           />
           <CheckboxLabel>{item.name}</CheckboxLabel>
         </label>
-        <OnlyButton name={`only:${item.name}`} onClick={handleChange}>
+        <OnlyButton name={item.name} onClick={handleOnlyChange}>
           только
         </OnlyButton>
       </CheckBoxContainer>

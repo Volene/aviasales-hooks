@@ -1,19 +1,24 @@
-
+import { produce } from "immer";
 import {
   GET_TICKETS_REQUEST,
   GET_TICKETS_SUCCESS,
   GET_TICKETS_FAILURE
 } from "../actions/types";
 
-export default (state = {}, action) => {
+export default produce((draft, action) => {
+  console.log(action);
   switch (action.type) {
     case GET_TICKETS_REQUEST:
-      return { ...state, isFetched:false };
+      draft.isFetched = false;
+      return;
     case GET_TICKETS_SUCCESS:
-        return { ...state, tickets:[...action.payload.tickets], isFetched:true};
+      draft.tickets = action.payload.tickets;
+      draft.isFetched = true;
+      return;
     case GET_TICKETS_FAILURE:
-      return { ...state, err: action.payload };
+      draft.err = action.payload;
+      return;
     default:
-      return state;
+      return draft;
   }
-};
+}, {});

@@ -35,7 +35,7 @@ const CheckBoxContainer = styled.div`
     background-color: #f1fcff;
   }
 `;
-const CheckBoxexContainer = styled.div`
+const CheckBoxesContainer = styled.div`
   @media (max-width: 600px) {
     width: 100%;
   }
@@ -78,6 +78,7 @@ const Filters = () => {
       return { list, allChecked };
     });
   };
+
   const handleOnlyChange = e => {
     let itemName = e.target.name;
     toggleFilterz(({ list, allChecked }) => {
@@ -91,6 +92,7 @@ const Filters = () => {
       return { list, allChecked };
     });
   };
+
   const renderFilters = () => {
     const { list } = filterz;
     return list.map(item => (
@@ -114,7 +116,7 @@ const Filters = () => {
   };
 
   return (
-    <CheckBoxexContainer>
+    <CheckBoxesContainer>
       <CheckBoxContainer>
         <label>
           <Checkbox
@@ -126,7 +128,7 @@ const Filters = () => {
         </label>
       </CheckBoxContainer>
       {renderFilters()}
-    </CheckBoxexContainer>
+    </CheckBoxesContainer>
   );
 };
 

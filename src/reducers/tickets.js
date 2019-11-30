@@ -6,7 +6,6 @@ import {
 } from "../actions/types";
 
 export default produce((draft, action) => {
-  console.log(action);
   switch (action.type) {
     case GET_TICKETS_REQUEST:
       draft.isFetched = false;

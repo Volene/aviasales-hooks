@@ -2,11 +2,15 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  
+
+}
+
+html {
+  overflow-y: scroll;
 }
 
 body {
-  font-size:12px;
+  font-size: 12px;
   font-family: 'Open Sans', sans-serif;
   display: block;
   background-color: #F3F7FA;

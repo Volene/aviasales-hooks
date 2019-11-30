@@ -285,7 +285,7 @@ const renderFlighs = (tickets, activeCurr, rate) => {
     }
   );
 };
-const FlighList=()=>{
+const FlighList = () => {
   const dispatch = useDispatch();
   const {
     stops,
@@ -300,10 +300,9 @@ const FlighList=()=>{
 
   return (
     <TicketListWrapper>
-      {isFetched && renderFlighs(visibleTickets, activeCurr, rate)}
-      {!isFetched && null}
+      {isFetched ? renderFlighs(visibleTickets, activeCurr, rate) : null}
     </TicketListWrapper>
   );
-}
+};
 
 export default FlighList;

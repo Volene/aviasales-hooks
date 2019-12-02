@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import styled from "styled-components";
 import { toggleFilter } from "../actions/";
+import { useCheckbox } from "../hooks";
 import Checkbox from "./Checkbox";
 const OnlyButton = styled.a`
   width: 45%;
@@ -45,8 +45,7 @@ const CheckboxLabel = styled.span`
 `;
 
 const Filters = () => {
-  const dispatch = useDispatch();
-  const [filterz, toggleFilterz] = useState({
+  const [filters, handleChange, handleOnlyChange] = useCheckbox( {
     allChecked: true,
     list: [
       { id: 0, value: 0, name: "Без пересадок", isChecked: true },
@@ -54,47 +53,9 @@ const Filters = () => {
       { id: 2, value: 2, name: "2 пересадки", isChecked: true },
       { id: 3, value: 3, name: "3 пересадки", isChecked: true }
     ]
-  });
-
-  const getFilters = list => {
-    return list
-      .filter(el => el.isChecked)
-      .reduce((acc, { id, value }) => ({ ...acc, [id]: value }), []);
-  };
-  const handleChange = e => {
-    let itemName = e.target.name;
-    let checked = e.target.checked;
-    toggleFilterz(({ list, allChecked }) => {
-      if (itemName === "checkAll") {
-        allChecked = checked;
-        list = list.map(item => ({ ...item, isChecked: checked }));
-      } else {
-        list = list.map(item =>
-          item.name === itemName ? { ...item, isChecked: checked } : item
-        );
-      }
-      allChecked = list.every(item => item.isChecked);
-      dispatch(toggleFilter(getFilters(list)));
-      return { list, allChecked };
-    });
-  };
-
-  const handleOnlyChange = e => {
-    let itemName = e.target.name;
-    toggleFilterz(({ list, allChecked }) => {
-      list = list.map(item =>
-        item.name === itemName
-          ? { ...item, isChecked: true }
-          : { ...item, isChecked: false }
-      );
-      allChecked = list.every(el => el.isChecked);
-      dispatch(toggleFilter(getFilters(list)));
-      return { list, allChecked };
-    });
-  };
-
+  },toggleFilter);
   const renderFilters = () => {
-    const { list } = filterz;
+    const { list } = filters;
     return list.map(item => (
       <CheckBoxContainer key={item.id}>
         <label>
@@ -121,7 +82,7 @@ const Filters = () => {
         <label>
           <Checkbox
             name="checkAll"
-            checked={filterz.allChecked}
+            checked={filters.allChecked}
             onChange={handleChange}
           />
           <CheckboxLabel>Все</CheckboxLabel>

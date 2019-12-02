@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useFetch } from "../hooks";
 import { useDispatch } from "react-redux";
 import { setCurrency, getCurrRateRequest } from "../actions";
 const ButtonGroup = styled.div`
@@ -49,15 +50,15 @@ const Button = styled.button`
   }
 `;
 
-const renderButtons = (buttons, setActBut) =>
-  buttons.map(({ id, name, primary }) => {
+const renderButtons = (buttons, setActBut, activeButton) =>
+  buttons.map(({ name, primary }) => {
     return (
       <Button
         key={name}
         index={name}
         value={name}
-        onClick={() => setActBut(id)}
-        primary={primary}
+        onClick={() => setActBut(name)}
+        primary={activeButton === name && primary}
       >
         {name}
       </Button>
@@ -67,29 +68,22 @@ const Currencies = () => {
   const dispatch = useDispatch();
   const buttons = [
     { id: 0, name: "RUB", primary: true },
-    { id: 1, name: "USD", primary: false },
-    { id: 2, name: "EUR", primary: false }
+    { id: 1, name: "USD", primary: true },
+    { id: 2, name: "EUR", primary: true }
   ];
 
-  const [activeButton, setActiveButton] = useState(buttons);
+  const [activeButton, setActiveButtons] = useState("RUB");
 
-  const setActiveButtons = idx => {
-    const b = [...activeButton];
-    b.map((button, i) =>
-      i === idx ? (button.primary = true) : (button.primary = false)
-    );
-    setActiveButton(b);
+  const setActiveButton = name => {
+    setActiveButtons(name);
   };
-
-  useEffect(() => {
-    dispatch(getCurrRateRequest());
-  }, [dispatch]);
+  useFetch(getCurrRateRequest);
 
   return (
     <>
       <Curr>Валюта </Curr>
       <ButtonGroup onClick={e => dispatch(setCurrency(e.target.value))}>
-        {renderButtons(activeButton, setActiveButtons)}
+        {renderButtons(buttons, setActiveButton, activeButton)}
       </ButtonGroup>
     </>
   );

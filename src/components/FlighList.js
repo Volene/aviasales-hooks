@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getTicketsRequest } from "../actions/index";
+import React from "react";
+import { useSelector } from "react-redux";
+import { getTicketsRequest } from "../actions";
+import { useFetch } from "../hooks";
 import BA from "../images/BA.png";
 import SU from "../images/SU.png";
 import TK4 from "../images/TK4.png";
@@ -286,18 +287,12 @@ const renderFlighs = (tickets, activeCurr, rate) => {
   );
 };
 const FlighList = () => {
-  const dispatch = useDispatch();
-  const {
-    stops,
-    tickets: { isFetched, tickets },
-    currency: { rate, activeCurr }
-  } = useSelector(state => state);
+  const { stops } = useSelector(state => state);
+  const { isFetched, tickets } = useSelector(state => state.tickets);
+  const { rate, activeCurr } = useSelector(state => state.currency);
   const visibleTickets = getVisibleTickets(tickets, stops);
-
-  useEffect(() => {
-    dispatch(getTicketsRequest());
-  }, [dispatch]);
-
+  
+  useFetch(getTicketsRequest);
   return (
     <TicketListWrapper>
       {isFetched ? renderFlighs(visibleTickets, activeCurr, rate) : null}

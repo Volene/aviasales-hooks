@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { toggleFilter } from "../actions/";
-import { useCheckbox } from "../hooks";
+import { useDispatch, useSelector } from "react-redux";
+import {  toggleOnly, toggleOne, toggleAll } from "../actions/";
 import Checkbox from "./Checkbox";
 const OnlyButton = styled.a`
   width: 45%;
@@ -45,17 +45,11 @@ const CheckboxLabel = styled.span`
 `;
 
 const Filters = () => {
-  const [filters, handleChange, handleOnlyChange] = useCheckbox( {
-    allChecked: true,
-    list: [
-      { id: 0, value: 0, name: "Без пересадок", isChecked: true },
-      { id: 1, value: 1, name: "1 пересадка", isChecked: true },
-      { id: 2, value: 2, name: "2 пересадки", isChecked: true },
-      { id: 3, value: 3, name: "3 пересадки", isChecked: true }
-    ]
-  },toggleFilter);
+  const dispatch = useDispatch();
+  const { list} = useSelector(state => state.stops)
+  const { allChecked} = useSelector(state => state.stops);
+
   const renderFilters = () => {
-    const { list } = filters;
     return list.map(item => (
       <CheckBoxContainer key={item.id}>
         <label>
@@ -65,11 +59,11 @@ const Filters = () => {
             name={item.name}
             value={item.name}
             checked={item.isChecked}
-            onChange={handleChange}
+            onChange={()=>dispatch(toggleOne(item.name))}
           />
           <CheckboxLabel>{item.name}</CheckboxLabel>
         </label>
-        <OnlyButton name={item.name} onClick={handleOnlyChange}>
+        <OnlyButton name={item.name} onClick={()=>dispatch(toggleOnly(item.name))}>
           только
         </OnlyButton>
       </CheckBoxContainer>
@@ -82,8 +76,8 @@ const Filters = () => {
         <label>
           <Checkbox
             name="checkAll"
-            checked={filters.allChecked}
-            onChange={handleChange}
+            checked={allChecked}
+            onChange={()=>dispatch(toggleAll())}
           />
           <CheckboxLabel>Все</CheckboxLabel>
         </label>

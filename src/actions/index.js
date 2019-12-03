@@ -6,12 +6,14 @@ import {
   GET_TICKETS_REQUEST,
   GET_TICKETS_FAILURE,
   GET_TICKETS_SUCCESS,
-  TOGGLE_FILTER
+  TOGGLE_ONLY,
+  TOGGLE_ONE,
+  TOGGLE_ALL
 } from "./types";
-const toggleFilter = stop => ({ type: TOGGLE_FILTER, payload: stop });
-
+const toggleAll = () => ({ type: TOGGLE_ALL });
+const toggleOnly = name => ({ type: TOGGLE_ONLY, name });
+const toggleOne = name => ({ type: TOGGLE_ONE, name });
 const setCurrency = curr => ({ type: SET_CURRENCY, payload: curr });
-
 const getCurrRateRequest = () => ({ type: GET_CURRENCY_RATE_REQUEST });
 const getCurrRateSuccess = currRate => ({
   type: GET_CURRENCY_RATE_SUCCESS,
@@ -32,7 +34,9 @@ const getTicketsFailure = err => ({
   payload: err
 });
 export {
-  toggleFilter,
+  toggleAll,
+  toggleOnly,
+  toggleOne,
   setCurrency,
   getCurrRateRequest,
   getCurrRateSuccess,

@@ -226,9 +226,8 @@ const formatPrice = (price, rate) => {
 
 const getVisibleTickets = (tickets, stops) => {
   if (!tickets) return null;
-  const stopz = Object.values(stops);
   return [...tickets]
-    .filter(el => stopz.includes(el.stops))
+    .filter(el => stops.includes(el.stops))
     .sort((a, b) => a.price - b.price);
 };
 const renderFlighs = (tickets, activeCurr, rate) => {
@@ -287,10 +286,10 @@ const renderFlighs = (tickets, activeCurr, rate) => {
   );
 };
 const FlighList = () => {
-  const { stops } = useSelector(state => state);
+  const { filters } = useSelector(state => state.stops);
   const { isFetched, tickets } = useSelector(state => state.tickets);
   const { rate, activeCurr } = useSelector(state => state.currency);
-  const visibleTickets = getVisibleTickets(tickets, stops);
+  const visibleTickets = getVisibleTickets(tickets, filters);
   
   useFetch(getTicketsRequest);
   return (

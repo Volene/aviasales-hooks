@@ -159,7 +159,8 @@ const DestArrDate = styled(DestArrName)`
   font-weight: 300;
   padding-top: 0;
 `;
-
+//http://pics.avs.io/99/36/TK.png 120/35
+//http://pics.avs.io/al_square/55/55/SU@2x.png
 const setLogo = carrier => {
   switch (carrier) {
     case "BA":
@@ -289,8 +290,8 @@ const FlighList = () => {
   const { filters } = useSelector(state => state.stops);
   const { isFetched, tickets } = useSelector(state => state.tickets);
   const { rate, activeCurr } = useSelector(state => state.currency);
+
   const visibleTickets = getVisibleTickets(tickets, filters);
-  
   useFetch(getTicketsRequest);
   return (
     <TicketListWrapper>

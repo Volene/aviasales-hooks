@@ -43,6 +43,7 @@ const Button = styled.button`
     opacity: 0.4;
   }
   :hover {
+    cursor: pointer;
     transition: all 1s ease-out;
     background: ${props => (props.primary ? "#2196f3" : "#f2fcff")};
     color: ${props => (props.primary ? "white" : "#2196f3")};

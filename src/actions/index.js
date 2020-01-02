@@ -8,8 +8,10 @@ import {
   GET_TICKETS_SUCCESS,
   TOGGLE_ONLY,
   TOGGLE_ONE,
-  TOGGLE_ALL
+  TOGGLE_ALL,
+  SEND_NOTIFICATION
 } from "./types";
+const notificationAction = () => ({ type: SEND_NOTIFICATION });
 const toggleAll = () => ({ type: TOGGLE_ALL });
 const toggleOnly = name => ({ type: TOGGLE_ONLY, name });
 const toggleOne = name => ({ type: TOGGLE_ONE, name });
@@ -34,6 +36,7 @@ const getTicketsFailure = err => ({
   payload: err
 });
 export {
+  notificationAction,
   toggleAll,
   toggleOnly,
   toggleOne,

@@ -194,32 +194,8 @@ const setStops = stops => {
       return `${stops} пересадки`;
   }
 };
-const formatDate = date => {
-  const [dd, mm, yy] = date.split(".");
-  const d = new Date("20" + yy, mm - 1, dd);
-  const weekDays = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
-  const months = [
-    "янв",
-    "фев",
-    "мар",
-    "апр",
-    "мая",
-    "июн",
-    "июл",
-    "авг",
-    "сен",
-    "окт",
-    "ноя",
-    "дек"
-  ];
-  const day = weekDays[d.getDay()];
-  const month = months[d.getMonth()];
-  return `${dd} ${month} 20${yy}, ${day}`;
-};
-const formatTime = time => {
-  const [hh] = time.split(":");
-  return hh < 10 ? "0" + time : time;
-};
+
+
 const formatPrice = (price, rate) => {
   const pricez = Math.floor(price * rate);
   return pricez > 1000 ? pricez.toString().replace(/(\d{2})/, "$1 ") : pricez;
@@ -261,12 +237,12 @@ const renderFlighs = (tickets, activeCurr, rate) => {
           </LogoButtonWrapper>
           <DepDescriptionWrapper>
             <Container>
-              <DepTimeArrTime>{formatTime(departure_time)}</DepTimeArrTime>
+              <DepTimeArrTime>{departure_time}</DepTimeArrTime>
               <DestArrName>
                 {origin}, {"\r\n"}
                 {origin_name}
               </DestArrName>
-              <DestArrDate>{formatDate(departure_date)}</DestArrDate>
+              <DestArrDate>{departure_date}</DestArrDate>
             </Container>
             <ContainerLine>
               <Transfers>{setStops(stops) || "⠀"}</Transfers>
@@ -278,7 +254,7 @@ const renderFlighs = (tickets, activeCurr, rate) => {
                 {destination}, {"\r\n"}
                 {destination_name}
               </DestArrName>
-              <DestArrDate>{formatDate(arrival_date)}</DestArrDate>
+              <DestArrDate>{arrival_date}</DestArrDate>
             </Container>
           </DepDescriptionWrapper>
         </Ticket>

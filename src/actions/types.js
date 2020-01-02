@@ -9,3 +9,4 @@ export const GET_TICKETS_FAILURE = "GET_TICKETS_FAILURE";
 export const TOGGLE_ALL = "TOGGLE_ALL";
 export const TOGGLE_ONLY = "TOGGLE_ONLY";
 export const TOGGLE_ONE = "TOGGLE_ONE";
+export const SEND_NOTIFICATION=`SEND_NOTIFICATION`;

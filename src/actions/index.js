@@ -9,7 +9,8 @@ import {
   TOGGLE_ONLY,
   TOGGLE_ONE,
   TOGGLE_ALL,
-  SEND_NOTIFICATION
+  SEND_NOTIFICATION,
+  NORMALIZE_DATA
 } from "./types";
 const notificationAction = () => ({ type: SEND_NOTIFICATION });
 const toggleAll = () => ({ type: TOGGLE_ALL });
@@ -35,7 +36,11 @@ const getTicketsFailure = err => ({
   type: GET_TICKETS_FAILURE,
   payload: err
 });
-export {
+const normalizeTickets = tickets => ({
+  type:  NORMALIZE_DATA,
+  payload: tickets
+});
+export {normalizeTickets,
   notificationAction,
   toggleAll,
   toggleOnly,

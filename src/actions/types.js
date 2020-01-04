@@ -10,3 +10,4 @@ export const TOGGLE_ALL = "TOGGLE_ALL";
 export const TOGGLE_ONLY = "TOGGLE_ONLY";
 export const TOGGLE_ONE = "TOGGLE_ONE";
 export const SEND_NOTIFICATION=`SEND_NOTIFICATION`;
+export const NORMALIZE_DATA=`NORMALIZE_DATA`;

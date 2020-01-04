@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import {
+import {NORMALIZE_DATA,
   GET_TICKETS_REQUEST,
   GET_TICKETS_SUCCESS,
   GET_TICKETS_FAILURE
@@ -16,6 +16,9 @@ export default produce((draft, action) => {
       return;
     case GET_TICKETS_FAILURE:
       draft.err = action.payload;
+      return;
+      case NORMALIZE_DATA:
+      draft.tickets = action.payload
       return;
     default:
       return draft;

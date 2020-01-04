@@ -195,12 +195,6 @@ const setStops = stops => {
   }
 };
 
-
-const formatPrice = (price, rate) => {
-  const pricez = Math.floor(price * rate);
-  return pricez > 1000 ? pricez.toString().replace(/(\d{2})/, "$1 ") : pricez;
-};
-
 const getVisibleTickets = (tickets, stops) => {
   if (!tickets) return null;
   return [...tickets]
@@ -220,7 +214,10 @@ const renderFlighs = (tickets, activeCurr, rate) => {
       origin_name,
       origin,
       destination,
-      destination_name
+      destination_name,
+      price_RUB,
+      price_USD,
+      price_EUR
     }) => {
       return (
         <Ticket key={price}>
@@ -231,7 +228,13 @@ const renderFlighs = (tickets, activeCurr, rate) => {
               Купить {"\r\n"}
               за {activeCurr === "USD" && "$"}
               {activeCurr === "EUR" && "€"}
-              {formatPrice(price, rate, activeCurr)}
+              {activeCurr === "RUB"
+                ? price_RUB
+                : activeCurr === "USD"
+                ? price_USD
+                : activeCurr === "EUR"
+                ? price_EUR
+                : price}
               {activeCurr === "RUB" && "₽"}
             </BuyButton>
           </LogoButtonWrapper>
@@ -266,7 +269,6 @@ const FlighList = () => {
   const { filters } = useSelector(state => state.stops);
   const { isFetched, tickets } = useSelector(state => state.tickets);
   const { rate, activeCurr } = useSelector(state => state.currency);
-
   const visibleTickets = getVisibleTickets(tickets, filters);
   useFetch(getTicketsRequest);
   return (
